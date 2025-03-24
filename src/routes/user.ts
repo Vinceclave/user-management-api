@@ -15,4 +15,21 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+
+// Get user by ID
+router.get("/:id", async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const user = await userRepository.findOneBy({ id });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      return res.json(user);
+    } catch (error) {
+      return res.status(500).json({ message: "Error retrieving user" });
+    }
+  });
+
 export default router;
